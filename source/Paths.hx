@@ -3,7 +3,7 @@ package;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.media.Sound;
-import opendl.utils.Assets;
+import openfl.utils.Assets;
 
 class Paths
 {
