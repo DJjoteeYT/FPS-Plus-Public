@@ -23,13 +23,15 @@ class Main extends Sprite
 
 		SUtil.checkPermissions();
 
+		#if (flixel <= "5.0.0")
+		addChild(new FlxGame(1280, 720, Startup, 144, 144, true));
+		#else
 		addChild(new FlxGame(1280, 720, Startup, 1, 144, 144, true));
+		#end
 
-		#if !mobile
 		fpsDisplay = new Overlay(10, 3);
 		fpsDisplay.visible = true;
 		addChild(fpsDisplay);
-		#end
 
 		trace("-=Args=-");
 		trace("novid: " + novid);
