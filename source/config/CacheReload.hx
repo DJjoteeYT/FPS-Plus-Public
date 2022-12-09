@@ -154,7 +154,7 @@ class CacheReload extends FlxState
 
 	function preloadMusic()
 	{
-		for (x in songs)
+		for (x in Startup.songs)
 		{
 			if (Paths.inst(x) != null)
 				Paths.inst(x);
