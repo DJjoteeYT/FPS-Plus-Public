@@ -126,9 +126,13 @@ class CacheReload extends FlxState
         //loadingText.text = "Preloading Assets...";
         
         if(!songsCached){ 
-            #if sys sys.thread.Thread.create(() -> { #end
-                preloadMusic();
-            #if sys }); #end
+            #if sys
+sys.thread.Thread.create(() -> {
+         preloadMusic();
+});
+#else
+         preloadMusic();
+#end
         }
         
 
