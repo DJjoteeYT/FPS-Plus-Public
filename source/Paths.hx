@@ -21,81 +21,81 @@ class Paths
 		return path;
 	}
 
-	inline static public function image(key:String):FlxGraphic
+	inline static public function font(key:String, ?extension:String = "ttf"):String
 	{
-		var path:String = file(key, "images", extensions.get("image"));
-		var data:FlxGraphic = loadImage(path);
-		return data;
+		var path:String = file(key, "fonts", extension);
+		return path;
 	}
 
-	inline static public function xml(key:String, ?location:String = "data")
+	inline static public function xml(key:String, ?location:String = "data"):String
 	{
 		var path:String = file(key, location, "xml");
 		return path;
 	}
 
-	inline static public function text(key:String, ?location:String = "data")
+	inline static public function text(key:String, ?location:String = "data"):String
 	{
 		var path:String = file(key, location, "txt");
 		return path;
 	}
 
-	inline static public function json(key:String, ?location:String = "data")
+	inline static public function json(key:String, ?location:String = "data"):String
 	{
 		var path:String = file(key, location, "json");
 		return path;
 	}
 
-	inline static public function sound(key:String)
+	inline static public function image(key:String, ?location:String = "images"):FlxGraphic
 	{
-		var path:String = file(key, "sounds", extensions.get("audio"));
+		var path:String = file(key, location, extensions.get("image"));
+		var data:FlxGraphic = loadImage(path);
+		return data;
+	}
+
+	inline static public function sound(key:String, ?location:String = "sounds"):Sound
+	{
+		var path:String = file(key, location, extensions.get("audio"));
 		var data:Sound = loadSound(path);
 		return data;
 	}
 
-	inline static public function music(key:String)
+	inline static public function music(key:String, ?location:String = "music"):Sound
 	{
-		var path:String = file(key, "music", extensions.get("audio"));
+		var path:String = file(key, location, extensions.get("audio"));
 		var data:Sound = loadSound(path);
 		return data;
 	}
 
-	inline static public function voices(key:String)
+	inline static public function voices(key:String, ?location:String = "songs"):Sound
 	{
-		var path:String = file('$key/Voices', "songs", extensions.get("audio"));
+		var path:String = file('$key/Voices', location, extensions.get("audio"));
 		var data:Sound = loadSound(path);
 		return data;
 	}
 
-	inline static public function inst(key:String)
+	inline static public function inst(key:String, ?location:String = "songs"):Sound
 	{
-		var path:String = file('$key/Inst', "songs", extensions.get("audio"));
+		var path:String = file('$key/Inst', location, extensions.get("audio"));
 		var data:Sound = loadSound(path);
 		return data;
 	}
 
-	inline static public function getSparrowAtlas(key:String):FlxAtlasFrames
+	inline static public function video(key:String, ?location:String = "videos"):String
 	{
-		var atlasFrames:FlxAtlasFrames = FlxAtlasFrames.fromSparrow(image(key), xml(key, "images"));
-		return atlasFrames;
-	}
-
-	inline static public function getPackerAtlas(key:String):FlxAtlasFrames
-	{
-		var atlasFrames:FlxAtlasFrames = FlxAtlasFrames.fromSpriteSheetPacker(image(key), text(key, "images"));
-		return atlasFrames;
-	}
-
-	inline static public function video(key:String)
-	{
-		var path:String = file(key, "videos", extensions.get("video"));
+		var path:String = file(key, location, extensions.get("video"));
 		return path;
 	}
 
-	inline static public function font(key:String, ?extension:String = "ttf")
+	inline static public function getSparrowAtlas(key:String, ?location:String = "images"):FlxAtlasFrames
 	{
-		var path:String = file(key, "fonts", extension);
-		return path;
+		var atlasFrames:FlxAtlasFrames = FlxAtlasFrames.fromSparrow(image(key, location), xml(key, location));
+		return atlasFrames;
+	}
+
+	inline static public function getPackerAtlas(key:String, ?location:String = "images"):FlxAtlasFrames
+	{
+		var atlasFrames:FlxAtlasFrames = FlxAtlasFrames.fromSpriteSheetPacker(image(key, location), text(key, location));
+		return atlasFrames;
 	}
 
 	public static function loadImage(path:String):FlxGraphic
