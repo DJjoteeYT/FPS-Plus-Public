@@ -42,7 +42,7 @@
 	<assets path="assets/music" include="*.ogg" />
 	<assets path="assets/sounds" include="*.ogg" />
 	<assets path="assets/songs" include="*.ogg" />
-	<assets path="assets/videos" include="*.ogg" />
+	<assets path="assets/videos" include="*.mp4" />
 
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL" />
