@@ -23,7 +23,7 @@ class Main extends Sprite
 
 		SUtil.checkPermissions();
 
-		#if (flixel <= "5.0.0")
+		#if (flixel >= "5.0.0")
 		addChild(new FlxGame(1280, 720, Startup, 144, 144, true));
 		#else
 		addChild(new FlxGame(1280, 720, Startup, 1, 144, 144, true));
