@@ -223,9 +223,13 @@ class Startup extends FlxState
         loadingText.text = "Caching Assets...";
         
         if(!songsCached){ 
-            #if sys sys.thread.Thread.create(() -> { #end
-                preloadMusic();
-            #if sys }); #end
+            #if sys
+sys.thread.Thread.create(() -> {
+         preloadMusic();
+});
+#else
+         preloadMusic();
+#end
         }
         
 
