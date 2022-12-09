@@ -27,7 +27,7 @@ class AudioStream
 	public function loadSound(key:String, cache:Bool = true)
 	{
 		if (sound != null)
-			sound = Assets.getMusic(key, cache);
+			sound = Assets.getSound(key, cache);
 		else
 			trace('sound is null dickhead');
 	}

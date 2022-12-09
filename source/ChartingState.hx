@@ -127,8 +127,6 @@ class ChartingState extends MusicBeatState
 	var lilBf:FlxSprite;
 	var lilOpp:FlxSprite;
 
-	var eventCache:Map<String, BitmapData> = new Map();
-
 	override function create()
 	{
 		openfl.Lib.current.stage.frameRate = 120;
@@ -1542,24 +1540,10 @@ class ChartingState extends MusicBeatState
 				var eventSymbol = new EventSprite();
 				var customIcon:Bool = false;
 
-				#if sys
-				if (sys.FileSystem.exists("assets/images/chartEditor/event/" + tag + ".png"))
-				{
-					if (!eventCache.exists("assets/images/chartEditor/event/" + tag + ".png"))
-					{
-						eventCache.set("assets/images/chartEditor/event/" + tag + ".png",
-							BitmapData.fromFile("assets/images/chartEditor/event/" + tag + ".png"));
-					}
-					eventSymbol.loadGraphic(FlxGraphic.fromBitmapData(eventCache.get("assets/images/chartEditor/event/" + tag + ".png")));
-					customIcon = true;
-				}
+				if (Paths.image("chartEditor/event/$tag") != null)
+					eventSymbol.loadGraphic(Paths.image("chartEditor/event/$tag"));
 				else
-				{
 					eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
-				}
-				#else
-				eventSymbol.loadGraphic(Paths.image("chartEditor/event/genericEvent"));
-				#end
 
 				eventSymbol.antialiasing = true;
 

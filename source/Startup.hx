@@ -91,17 +91,6 @@ class Startup extends FlxState
 		PlayerSettings.player1.controls.loadKeyBinds();
 		Config.configCheck();
 
-		/*Switched to a new custom transition system.
-			var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
-			diamond.persist = true;
-			diamond.destroyOnNoUse = false;
-
-			FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), 
-				{asset: diamond, width: 32, height: 32},  new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
-			FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
-				{asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
-		 */
-
 		UIStateExt.defaultTransIn = ScreenWipeIn;
 		UIStateExt.defaultTransInArgs = [1.2];
 		UIStateExt.defaultTransOut = ScreenWipeOut;
@@ -136,10 +125,10 @@ class Startup extends FlxState
 		splash.frames = Paths.getSparrowAtlas('fpsPlus/rozeSplash');
 		splash.animation.addByPrefix('start', 'Splash Start', 24, false);
 		splash.animation.addByPrefix('end', 'Splash End', 24, false);
-		add(splash);
 		splash.animation.play("start");
 		splash.updateHitbox();
 		splash.screenCenter();
+		add(splash);
 
 		loadingText = new FlxText(5, FlxG.height - 30, 0, "", 24);
 		loadingText.setFormat(Paths.font("vcr"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -174,6 +163,7 @@ class Startup extends FlxState
 
 			cacheStart = true;
 		}
+
 		if (splash.animation.curAnim.finished && splash.animation.curAnim.name == "end")
 		{
 			FlxG.switchState(nextState);
@@ -211,7 +201,7 @@ class Startup extends FlxState
 			}
 			else
 			{
-				ImageCache.add(Paths.file(characters[charI], "images", "png"));
+				Paths.loadImage(Paths.file(characters[charI], "images", Paths.extensions.get("image")));
 				charI++;
 			}
 		}
@@ -226,7 +216,7 @@ class Startup extends FlxState
 			}
 			else
 			{
-				ImageCache.add(Paths.file(graphics[gfxI], "images", "png"));
+				Paths.loadImage(Paths.file(graphics[gfxI], "images", Paths.extensions.get("image")));
 				gfxI++;
 			}
 		}
@@ -250,21 +240,6 @@ class Startup extends FlxState
 			#end
 		}
 
-		/*if(!charactersCached){
-				var i = 0;
-				var charLoadLoop = new FlxAsyncLoop(characters.length, function(){
-					ImageCache.add(Paths.file(characters[i], "images", "png"));
-					i++;
-				}, 1);
-			}
-
-			for(x in characters){
-				
-				//trace("Chached " + x);
-			}
-			loadingText.text = "Characters cached...";
-			charactersCached = true; */
-
 		if (!charactersCached)
 		{
 			startCachingCharacters = true;
@@ -280,15 +255,16 @@ class Startup extends FlxState
 	{
 		for (x in songs)
 		{
-			if (Assets.exists(Paths.inst(x)))
-			{
-				FlxG.sound.cache(Paths.inst(x));
-			}
-			else
-			{
-				FlxG.sound.cache(Paths.music(x));
-			}
+			if (Paths.inst(x) != null)
+				Paths.inst(x);
+
+			if (Paths.music(x) != null)
+				Paths.music(x);
+
+			if (Paths.sound(x) != null)
+				Paths.sound(x);
 		}
+
 		loadingText.text = "Songs cached...";
 		songsCached = true;
 	}
@@ -296,10 +272,8 @@ class Startup extends FlxState
 	function preloadCharacters()
 	{
 		for (x in characters)
-		{
-			ImageCache.add(Paths.file(x, "images", "png"));
-			// trace("Chached " + x);
-		}
+			Paths.loadImage(Paths.file(x, "images", Paths.extensions.get("image")));
+
 		loadingText.text = "Characters cached...";
 		charactersCached = true;
 	}
@@ -307,17 +281,15 @@ class Startup extends FlxState
 	function preloadGraphics()
 	{
 		for (x in graphics)
-		{
-			ImageCache.add(Paths.file(x, "images", "png"));
-			// trace("Chached " + x);
-		}
+			Paths.loadImage(Paths.file(x, "images", Paths.extensions.get("image")));
+
 		loadingText.text = "Graphics cached...";
 		graphicsCached = true;
 	}
 
 	function openPreloadSettings()
 	{
-		#if desktop
+		#if !web
 		CacheSettings.noFunMode = true;
 		FlxG.switchState(new CacheSettings());
 		CacheSettings.returnLoc = new Startup();

@@ -49,7 +49,8 @@ class CacheReload extends FlxState
 		if (doGraphics)
 		{
 			GPUBitmap.disposeAll();
-			ImageCache.cache.clear();
+			Assets.cache.clear("images");
+			Paths.imageCache.clear();
 		}
 		else
 		{
@@ -59,7 +60,10 @@ class CacheReload extends FlxState
 
 		if (doMusic)
 		{
+			Assets.cache.clear("songs");
 			Assets.cache.clear("music");
+			Assets.cache.clear("sounds");
+			Paths.soundCache.clear();
 		}
 		else
 		{
@@ -101,7 +105,7 @@ class CacheReload extends FlxState
 			}
 			else
 			{
-				ImageCache.add(Paths.file(Startup.characters[charI], "images", "png"));
+				Paths.loadImage(Paths.file(Startup.characters[charI], "images", Paths.extensions.get("image")));
 				charI++;
 			}
 		}
@@ -110,14 +114,12 @@ class CacheReload extends FlxState
 		{
 			if (gfxI >= Startup.graphics.length)
 			{
-				// loadingText.text = "Graphics cached...";
-				// FlxG.sound.play(Paths.sound("tick"), 1);
 				startCachingGraphics = false;
 				graphicsCached = true;
 			}
 			else
 			{
-				ImageCache.add(Paths.file(Startup.graphics[gfxI], "images", "png"));
+				Paths.loadImage(Paths.file(Startup.graphics[gfxI], "images", Paths.extensions.get("image")));
 				gfxI++;
 			}
 		}
@@ -127,8 +129,6 @@ class CacheReload extends FlxState
 
 	function preload()
 	{
-		// loadingText.text = "Preloading Assets...";
-
 		if (!songsCached)
 		{
 			#if sys
@@ -140,21 +140,6 @@ class CacheReload extends FlxState
 			preloadMusic();
 			#end
 		}
-
-		/*if(!charactersCached){
-				var i = 0;
-				var charLoadLoop = new FlxAsyncLoop(characters.length, function(){
-					ImageCache.add(Paths.file(characters[i], "images", "png"));
-					i++;
-				}, 1);
-			}
-
-			for(x in characters){
-				
-				//trace("Chached " + x);
-			}
-			loadingText.text = "Characters cached...";
-			charactersCached = true; */
 
 		if (!charactersCached)
 		{
@@ -169,38 +154,18 @@ class CacheReload extends FlxState
 
 	function preloadMusic()
 	{
-		for (x in Startup.songs)
+		for (x in songs)
 		{
-			if (Assets.exists(Paths.inst(x)))
-			{
-				FlxG.sound.cache(Paths.inst(x));
-			}
-			else
-			{
-				FlxG.sound.cache(Paths.music(x));
-			}
-		}
-		// loadingText.text = "Songs cached...";
-		// FlxG.sound.play(Paths.sound("tick"), 1);
-		songsCached = true;
-	}
-	/*
-		function preloadCharacters(){
-			for(x in Startup.characters){
-				ImageCache.add(Paths.file(x, "images", "png"));
-				//trace("Chached " + x);
-			}
-			loadingText.text = "Characters cached...";
-			charactersCached = true;
+			if (Paths.inst(x) != null)
+				Paths.inst(x);
+
+			if (Paths.music(x) != null)
+				Paths.music(x);
+
+			if (Paths.sound(x) != null)
+				Paths.sound(x);
 		}
 
-		function preloadGraphics(){
-			for(x in Startup.graphics){
-				ImageCache.add(Paths.file(x, "images", "png"));
-				//trace("Chached " + x);
-			}
-			loadingText.text = "Graphics cached...";
-			graphicsCached = true;
-		}
-	 */
+		songsCached = true;
+	}
 }
