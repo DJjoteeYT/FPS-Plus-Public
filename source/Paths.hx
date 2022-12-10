@@ -3,7 +3,6 @@ package;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-import openfl.display.BitmapData;
 import openfl.media.Sound;
 import openfl.system.System;
 import openfl.utils.Assets;
@@ -218,8 +217,7 @@ class Paths
 		{
 			if (!imagesCache.exists(path))
 			{
-				var bitmapData:BitmapData = #if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end;
-				var graphic:FlxGraphic = FlxGraphic.fromBitmapData(bitmapData);
+				var graphic:FlxGraphic = FlxGraphic.fromBitmapData(#if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end);
 				graphic.persist = true;
 				graphic.destroyOnNoUse = false;
 				imagesCache.set(path, graphic);
