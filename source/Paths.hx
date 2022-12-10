@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.media.Sound;
@@ -42,7 +43,7 @@ class Paths
 				@:privateAccess
 				for (key in FlxG.bitmap._cache.keys())
 				{
-					if (!imagesCache.contains(key) && key != null)
+					if (!imagesCache.exists(key) && key != null)
 					{
 						var obj = FlxG.bitmap._cache.get(key);
 						@:privateAccess
@@ -87,7 +88,7 @@ class Paths
 				@:privateAccess
 				for (key in Assets.cache.getSoundKeys())
 				{
-					if (!soundsCache.contains(key) && key != null)
+					if (!soundsCache.exists(key) && key != null)
 					{
 						var obj = Assets.cache.getSound(key);
 						@:privateAccess
