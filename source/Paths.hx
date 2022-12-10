@@ -3,7 +3,22 @@ package;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.media.Sound;
+import openfl.system.System;
 import openfl.utils.Assets;
+
+enum AssetsType
+{
+	ALL;
+	IMAGES;
+	SOUNDS;
+}
+
+enum ClearingType
+{
+	ALL;
+	UNUSED;
+	STORED;
+}
 
 class Paths
 {
@@ -13,8 +28,104 @@ class Paths
 		"video" => "mp4"
 	];
 
-	public static var imageCache:Map<String, FlxGraphic> = [];
-	public static var soundCache:Map<String, Sound> = [];
+	public static var imagesCache:Map<String, FlxGraphic> = [];
+	public static var soundsCache:Map<String, Sound> = [];
+
+	public static var trackedAssets:Array<String> = [];
+
+	public static function clearCache(?assets:AssetsType = ALL, ?clearing:ClearingType = ALL):Void
+	{
+		if (assets == IMAGES || assets == ALL)
+		{
+			if (clearing == STORED || clearing == ALL)
+			{
+				@:privateAccess
+				for (key in FlxG.bitmap._cache.keys())
+				{
+					if (!imagesCache.contains(key) && key != null)
+					{
+						var obj = FlxG.bitmap._cache.get(key);
+						@:privateAccess
+						if (obj != null)
+						{
+							Assets.cache.removeBitmapData(key);
+							Assets.cache.clearBitmapData(key);
+							Assets.cache.clear(key);
+							FlxG.bitmap._cache.remove(key);
+							obj.destroy();
+						}
+					}
+				}
+			}
+
+			if (clearing == UNUSED || clearing == ALL)
+			{
+				for (key in imagesCache.keys())
+				{
+					if (!trackedAssets.contains(key) && key != null)
+					{
+						var obj = imagesCache.get(key);
+						@:privateAccess
+						if (obj != null)
+						{
+							Assets.cache.removeBitmapData(key);
+							Assets.cache.clearBitmapData(key);
+							Assets.cache.clear(key);
+							FlxG.bitmap._cache.remove(key);
+							obj.destroy();
+							imagesCache.remove(key);
+						}
+					}
+				}
+			}
+		}
+
+		if (assets == SOUNDS || assets == ALL)
+		{
+			if (clearing == STORED || clearing == ALL)
+			{
+				@:privateAccess
+				for (key in Assets.cache.getSoundKeys())
+				{
+					if (!soundsCache.contains(key) && key != null)
+					{
+						var obj = Assets.cache.getSound(key);
+						@:privateAccess
+						if (obj != null)
+						{
+							Assets.cache.removeSound(key);
+							Assets.cache.clearSounds(key);
+							Assets.cache.clear(key);
+						}
+					}
+				}
+			}
+
+			if (clearing == UNUSED || clearing == ALL)
+			{
+				for (key in soundsCache.keys())
+				{
+					if (!trackedAssets.contains(key) && key != null)
+					{
+						var obj = soundsCache.get(key);
+						if (obj != null)
+						{
+							Assets.cache.removeSound(key);
+							Assets.cache.clearSounds(key);
+							Assets.cache.clear(key);
+							soundsCache.remove(key);
+						}
+					}
+				}
+			}
+		}
+
+		if (clearing == UNUSED || clearing == ALL)
+			trackedAssets = [];
+
+		// run the garbage collector for good measure lmao
+		System.gc();
+	}
 
 	inline static public function file(key:String, location:String, extension:String):String
 	{
@@ -103,17 +214,17 @@ class Paths
 	{
 		if (Assets.exists(path, IMAGE))
 		{
-			if (!imageCache.exists(path))
+			if (!imagesCache.exists(path))
 			{
 				var graphic:FlxGraphic = FlxGraphic.fromBitmapData(GPUBitmap.create(path));
 				graphic.persist = true;
 				graphic.destroyOnNoUse = false;
-				imageCache.set(path, graphic);
+				imagesCache.set(path, graphic);
 			}
 			else
 				trace('$path is already loaded!');
 
-			return imageCache.get(path);
+			return imagesCache.get(path);
 		}
 		else
 			trace('$path is null!');
@@ -125,15 +236,15 @@ class Paths
 	{
 		if (Assets.exists(path, SOUND))
 		{
-			if (!soundCache.exists(path))
+			if (!soundsCache.exists(path))
 			{
 				var sound:Sound = Assets.getSound(path);
-				soundCache.set(path, sound);
+				soundsCache.set(path, sound);
 			}
 			else
 				trace('$path is already loaded!');
 
-			return soundCache.get(path);
+			return soundsCache.get(path);
 		}
 		else
 			trace('$path is null!');
