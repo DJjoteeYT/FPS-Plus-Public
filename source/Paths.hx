@@ -7,13 +7,14 @@ import openfl.utils.Assets;
 
 class Paths
 {
-	public static final imageCache:Map<String, FlxGraphic> = [];
-	public static final soundCache:Map<String, Sound> = [];
 	public static final extensions:Map<String, String> = [
 		"image" => "png",
 		"audio" => "ogg",
 		"video" => "mp4"
 	];
+
+	public static var imageCache:Map<String, FlxGraphic> = [];
+	public static var soundCache:Map<String, Sound> = [];
 
 	inline static public function file(key:String, location:String, extension:String):String
 	{
