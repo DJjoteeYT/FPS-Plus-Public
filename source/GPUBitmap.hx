@@ -44,7 +44,7 @@ class GPUBitmap
 		}
 
 		// trace('creating new texture');
-		var bmp = Assets.getBitmapData(path, false);
+		var bmp = Assets.getBitmapData(path);
 		var _texture = FlxG.stage.context3D.createTexture(bmp.width, bmp.height, texFormat, optimizeForRender);
 		_texture.uploadFromBitmapData(bmp);
 		bmp.dispose();
