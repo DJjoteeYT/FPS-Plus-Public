@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxGame;
 import openfl.display.Sprite;
+import openfl.system.System;
 
 class Main extends Sprite
 {
@@ -30,6 +31,8 @@ class Main extends Sprite
 		#end
 
 		addChild(new Overlay(10, 3));
+
+		FlxG.signals.postStateSwitch.add(System.gc);
 
 		trace("-=Args=-");
 		trace("novid: " + novid);
