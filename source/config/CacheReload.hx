@@ -49,8 +49,7 @@ class CacheReload extends FlxState
 		if (doGraphics)
 		{
 			GPUBitmap.disposeAll();
-			Assets.cache.clear("images");
-			Paths.imageCache.clear();
+			Paths.clearCache(IMAGES, ALL);
 		}
 		else
 		{
@@ -60,10 +59,7 @@ class CacheReload extends FlxState
 
 		if (doMusic)
 		{
-			Assets.cache.clear("songs");
-			Assets.cache.clear("music");
-			Assets.cache.clear("sounds");
-			Paths.soundCache.clear();
+			Paths.clearCache(SOUNDS, ALL);
 		}
 		else
 		{
