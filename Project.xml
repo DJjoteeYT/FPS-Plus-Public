@@ -26,7 +26,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
 
 	<!--Mobile/Switch-specific-->
-	<window if="mobile || switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
+	<window if="mobile || switch" orientation="landscape" fullscreen="true" resizable="true" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
