@@ -56,7 +56,7 @@ class ConfigMenu extends MusicBeatState
 		"Adjust note timings.\nPress \"ENTER\" to start the offset calibration." +
 		(FlxG.save.data.ee1 ? "\nHold \"SHIFT\" to force the pixel calibration.\nHold \"CTRL\" to force the normal calibration." : ""),
 		"What type of accuracy calculation you want to use. Simple is just notes hit / total notes. Complex also factors in how early or late a note was.",
-		#if desktop "Uncaps the framerate during gameplay." #else "Disabled on Web builds." #end,
+		#if !web "Uncaps the framerate during gameplay." #else "Disabled on Web builds." #end,
 		"TEMP",
 		"Modifies how much Health you gain when hitting a note.",
 		"Modifies how much Health you lose when missing a note.",
@@ -271,7 +271,7 @@ class ConfigMenu extends MusicBeatState
 
 					accuracyType = accuracyTypes[accuracyTypeInt];
 				case 2: // FPS Cap
-					#if desktop
+					#if !web
 					if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT)
 					{
 						FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -438,7 +438,7 @@ class ConfigMenu extends MusicBeatState
 				case 10: // Preload settings
 					if (controls.ACCEPT)
 					{
-						#if desktop
+						#if !web
 						FlxG.sound.play(Paths.sound('scrollMenu'));
 						canChangeItems = false;
 						writeToConfig();
@@ -585,7 +585,7 @@ class ConfigMenu extends MusicBeatState
 				return ": " + offsetValue;
 			case 1:
 				return ": " + accuracyType;
-			case 2: #if desktop return ": " + genericOnOff[noCapValue ? 0 : 1]; #else return ": disabled"; #end
+			case 2: #if !web return ": " + genericOnOff[noCapValue ? 0 : 1]; #else return ": disabled"; #end
 			case 3:
 				return ": " + randomTapTypes[randomTapValue];
 			case 4:
