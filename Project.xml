@@ -30,11 +30,6 @@
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
-	<set name="BUILD_DIR" value="export/debug" if="debug" />
-	<set name="BUILD_DIR" value="export/release" unless="debug" />
-
-	<source name="source" />
-
 	<assets path="assets/data" />
 	<assets path="assets/fonts" />
 	<assets path="assets/images" />
@@ -44,24 +39,10 @@
 	<assets path="assets/songs" include="*.ogg" />
 	<assets path="assets/videos" include="*.mp4" />
 
-	<define name="PRELOAD_ALL" unless="web" />
-	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL" />
+	<set name="BUILD_DIR" value="export/debug" if="debug" />
+	<set name="BUILD_DIR" value="export/release" unless="debug" />
 
-	<section if="PRELOAD_ALL">
-		<library name="data" preload="true" />
-		<library name="sounds" preload="true" />
-		<library name="music" preload="true" />
-		<library name="images" preload="true" />
-		<library name="videos" preload="true" />
-	</section>
-
-	<section if="NO_PRELOAD_ALL">
-		<library name="data" preload="false" />
-		<library name="sounds" preload="false" />
-		<library name="music" preload="false" />
-		<library name="images" preload="false" />
-		<library name="videos" preload="false" />
-	</section>
+	<source name="source" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
