@@ -228,7 +228,7 @@ class Paths
 		return atlasFrames;
 	}
 
-	public static function loadImage(path:String):FlxGraphic
+	public static function loadImage(path:String, ?exclude:Bool = false):FlxGraphic
 	{
 		if (Assets.exists(path, IMAGE))
 		{
@@ -238,6 +238,9 @@ class Paths
 				graphic.persist = true;
 				graphic.destroyOnNoUse = false;
 				imagesCache.set(path, graphic);
+
+				if (exclude)
+					excludedImages.push(path);
 			}
 			else
 				trace('$path is already loaded!');
@@ -250,7 +253,7 @@ class Paths
 		return null;
 	}
 
-	public static function loadSound(path:String):Sound
+	public static function loadSound(path:String, ?exclude:Bool = false):Sound
 	{
 		if (Assets.exists(path, SOUND))
 		{
@@ -258,6 +261,9 @@ class Paths
 			{
 				var sound:Sound = Assets.getSound(path);
 				soundsCache.set(path, sound);
+
+				if (exclude)
+					excludedSounds.push(path);
 			}
 			else
 				trace('$path is already loaded!');
