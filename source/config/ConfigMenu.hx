@@ -496,7 +496,7 @@ class ConfigMenu extends MusicBeatState
 						FlxG.sound.play(Paths.sound('scrollMenu'));
 						canChangeItems = false;
 						writeToConfig();
-						switchState(new mobile.());
+						switchState(new mobile.MobileControlsState());
 					}
 					#end
 			}
