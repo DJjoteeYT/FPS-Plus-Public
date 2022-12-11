@@ -11,7 +11,6 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import lime.net.curl.CURLCode;
 
 using StringTools;
 
@@ -211,6 +210,10 @@ class StoryMenuState extends MusicBeatState
 		updateText();
 
 		trace("Line 165");
+
+		#if mobile
+		addVirtualPad(LEFT_FULL, A_B);
+		#end
 
 		super.create();
 	}

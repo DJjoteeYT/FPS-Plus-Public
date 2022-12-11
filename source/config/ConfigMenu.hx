@@ -48,7 +48,7 @@ class ConfigMenu extends MusicBeatState
 
 	final settingText:Array<String> = [
 		"NOTE OFFSET", "ACCURACY DISPLAY", "UNCAPPED FRAMERATE", "ALLOW GHOST TAPPING", "HP GAIN MULTIPLIER", "HP DRAIN MULTIPLIER", "DOWNSCROLL",
-		"NOTE GLOW", "COMBO DISPLAY", "BACKGROUND DIM", "[CACHE SETTINGS]", "CONTROLLER SCHEME", "[EDIT KEY BINDS]"
+		"NOTE GLOW", "COMBO DISPLAY", "BACKGROUND DIM", "[CACHE SETTINGS]", "CONTROLLER SCHEME", "[EDIT KEY BINDS]" #if mobile , "[EDIT MOBILE CONTROLS]" #end
 	];
 
 	// Any descriptions that say TEMP are replaced with a changing description based on the current config setting.
@@ -67,6 +67,9 @@ class ConfigMenu extends MusicBeatState
 		"Change what assets the game keeps cached.",
 		"TEMP",
 		"Change key binds."
+		#if mobile
+		, "Change the mobile controld"
+		#end
 	];
 
 	final ghostTapDesc:Array<String> = [
@@ -174,6 +177,10 @@ class ConfigMenu extends MusicBeatState
 		customTransIn = new WeirdBounceIn(0.6);
 		customTransOut = new WeirdBounceOut(0.6);
 
+		#if mobile
+		addVirtualPad(LEFT_FULL, A_B);
+		#end
+
 		super.create();
 	}
 
@@ -242,7 +249,7 @@ class ConfigMenu extends MusicBeatState
 						leftRightCount = 0;
 					}
 
-					if (FlxG.keys.justPressed.ENTER)
+					if (controls.ACCEPT)
 					{
 						canChangeItems = false;
 						FlxG.sound.music.fadeOut(0.3);
@@ -436,16 +443,16 @@ class ConfigMenu extends MusicBeatState
 						dimValue = 10;
 
 				case 10: // Preload settings
+					#if !web
 					if (controls.ACCEPT)
 					{
-						#if !web
 						FlxG.sound.play(Paths.sound('scrollMenu'));
 						canChangeItems = false;
 						writeToConfig();
 						switchState(new CacheSettings());
 						CacheSettings.returnLoc = new ConfigMenu();
-						#end
 					}
+					#end
 
 				case 11: // Controller Stuff
 					if (controls.RIGHT_P)
@@ -481,6 +488,17 @@ class ConfigMenu extends MusicBeatState
 						writeToConfig();
 						switchState(new KeyBindMenu());
 					}
+
+				case 13: // Mobile Controls
+					#if mobile
+					if (controls.ACCEPT)
+					{
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+						canChangeItems = false;
+						writeToConfig();
+						switchState(new mobile.());
+					}
+					#end
 			}
 		}
 		else if (FlxG.keys.pressed.TAB)

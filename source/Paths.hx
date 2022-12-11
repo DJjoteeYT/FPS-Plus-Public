@@ -23,11 +23,7 @@ enum ClearingType
 
 class Paths
 {
-	public static final extensions:Map<String, String> = [
-		"image" => "png",
-		"audio" => "ogg",
-		"video" => "mp4"
-	];
+	public static final extensions:Map<String, String> = ["image" => "png", "audio" => "ogg", "video" => "mp4"];
 
 	public static var imagesCache:Map<String, FlxGraphic> = [];
 	public static var soundsCache:Map<String, Sound> = [];

@@ -106,6 +106,11 @@ class MainMenuState extends MusicBeatState
 		// Offset Stuff
 		Config.reload();
 
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		virtualPad.y -= 37;
+		#end
+
 		super.create();
 	}
 

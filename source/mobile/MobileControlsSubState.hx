@@ -1,8 +1,8 @@
 package mobile;
 
+import config.ConfigMenu;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxSubState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
@@ -14,8 +14,9 @@ import mobile.flixel.FlxButton;
 import mobile.flixel.FlxHitbox;
 import mobile.flixel.FlxVirtualPad;
 import openfl.utils.Assets;
+import transition.data.*;
 
-class MobileControlsSubState extends FlxSubState
+class MobileControlsSubState extends MusicBeatState
 {
 	private final controlsItems:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Pad-Duo', 'Hitbox', 'Keyboard'];
 
@@ -40,9 +41,14 @@ class MobileControlsSubState extends FlxSubState
 			if (controlsItems[i] == MobileControls.mode)
 				curSelected = i;
 
-		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.fromRGB(FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)));
-		bg.scrollFactor.set();
-		bg.alpha = 0.4;
+		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		bg.scrollFactor.x = 0;
+		bg.scrollFactor.y = 0;
+		bg.setGraphicSize(Std.int(bg.width * 1.18));
+		bg.updateHitbox();
+		bg.screenCenter();
+		bg.antialiasing = true;
+		bg.color = 0xFF9766BE;
 		add(bg);
 
 		var exitButton:FlxButton = new FlxButton(FlxG.width - 200, 50, 'Exit', function()
@@ -52,8 +58,7 @@ class MobileControlsSubState extends FlxSubState
 			if (controlsItems[Math.floor(curSelected)] == 'Pad-Custom')
 				MobileControls.customVirtualPad = virtualPad;
 
-			FlxTransitionableState.skipNextTransOut = true;
-			FlxG.resetState();
+			switchState(new ConfigMenu());
 		});
 		exitButton.setGraphicSize(Std.int(exitButton.width) * 3);
 		exitButton.label.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 21, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE,
@@ -77,8 +82,8 @@ class MobileControlsSubState extends FlxSubState
 		add(resetButton);
 
 		funitext = new FlxText(0, 0, 0, 'No Android Controls!', 32);
-		funitext.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE,
-			FlxColor.BLACK, true);
+		funitext.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK,
+			true);
 		funitext.borderSize = 3;
 		funitext.borderQuality = 1;
 		funitext.screenCenter();
@@ -86,8 +91,8 @@ class MobileControlsSubState extends FlxSubState
 		add(funitext);
 
 		grpControls = new FlxText(0, 100, 0, '', 32);
-		grpControls.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE,
-			FlxColor.BLACK, true);
+		grpControls.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK,
+			true);
 		grpControls.borderSize = 3;
 		grpControls.borderQuality = 1;
 		grpControls.screenCenter(X);
@@ -106,34 +111,37 @@ class MobileControlsSubState extends FlxSubState
 		add(rightArrow);
 
 		rightPosition = new FlxText(10, FlxG.height - 24, 0, '', 16);
-		rightPosition.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE,
-			FlxColor.BLACK, true);
+		rightPosition.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK,
+			true);
 		rightPosition.borderSize = 3;
 		rightPosition.borderQuality = 1;
 		add(rightPosition);
 
 		leftPosition = new FlxText(10, FlxG.height - 44, 0, '', 16);
-		leftPosition.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE,
-			FlxColor.BLACK, true);
+		leftPosition.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK,
+			true);
 		leftPosition.borderSize = 3;
 		leftPosition.borderQuality = 1;
 		add(leftPosition);
 
 		downPosition = new FlxText(10, FlxG.height - 64, 0, '', 16);
-		downPosition.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE,
-			FlxColor.BLACK, true);
+		downPosition.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK,
+			true);
 		downPosition.borderSize = 3;
 		downPosition.borderQuality = 1;
 		add(downPosition);
 
 		upPosition = new FlxText(10, FlxG.height - 84, 0, '', 16);
-		upPosition.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE,
-			FlxColor.BLACK, true);
+		upPosition.setFormat(Assets.getFont('assets/mobile/menu/vcr.ttf').fontName, 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK,
+			true);
 		upPosition.borderSize = 3;
 		upPosition.borderQuality = 1;
 		add(upPosition);
 
 		changeSelection();
+
+		customTransIn = new WeirdBounceIn(0.6);
+		customTransOut = new WeirdBounceOut(0.6);
 
 		super.create();
 	}
@@ -158,7 +166,7 @@ class MobileControlsSubState extends FlxSubState
 						bindButton = null;
 						buttonBinded = false;
 					}
-					else 
+					else
 						moveButton(touch, bindButton);
 				}
 				else

@@ -80,6 +80,10 @@ class Startup extends FlxState
 
 	override function create()
 	{
+		#if android
+		FlxG.android.preventDefaultKeys = [BACK];
+		#end
+
 		FlxG.mouse.visible = false;
 		FlxG.sound.muteKeys = null;
 
@@ -186,7 +190,7 @@ class Startup extends FlxState
 			});
 		}
 
-		if (!cacheStart && FlxG.keys.justPressed.ANY)
+		if (!cacheStart && FlxG.keys.justPressed.ANY #if android || FlxG.android.justReleased.BACK #end)
 		{
 			openPreloadSettings();
 		}
