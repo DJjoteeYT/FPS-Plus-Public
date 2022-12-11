@@ -6,6 +6,8 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.system.FlxSound;
 import flixel.util.FlxColor;
+import sys.thread.Mutex;
+import sys.thread.Thread;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -15,6 +17,8 @@ class PauseSubState extends MusicBeatSubstate
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
+
+	var mutex:Mutex;
 
 	public function new(x:Float, y:Float)
 	{
@@ -37,12 +41,16 @@ class PauseSubState extends MusicBeatSubstate
 			menuItems.insert(1, "Restart Section");
 		}
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
-
-		pauseMusic.volume = 0;
-		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
-
-		FlxG.sound.list.add(pauseMusic);
+		mutex = new Mutex();
+		Thread.create(function()
+		{
+			mutex.acquire();
+			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+			pauseMusic.volume = 0;
+			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+			FlxG.sound.list.add(pauseMusic);
+			mutex.release();
+		});
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0.6;
