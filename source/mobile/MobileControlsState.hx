@@ -20,7 +20,7 @@ class MobileControlsState extends MusicBeatState
 {
 	private final controlsItems:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Pad-Duo', 'Hitbox', 'Keyboard'];
 
-	private var virtualPad:FlxVirtualPad;
+	private var vpad:FlxVirtualPad;
 	private var hitbox:FlxHitbox;
 	private var upPosition:FlxText;
 	private var downPosition:FlxText;
@@ -56,7 +56,7 @@ class MobileControlsState extends MusicBeatState
 			MobileControls.mode = controlsItems[Math.floor(curSelected)];
 
 			if (controlsItems[Math.floor(curSelected)] == 'Pad-Custom')
-				MobileControls.customVirtualPad = virtualPad;
+				MobileControls.customVirtualPad = vpad;
 
 			switchState(new ConfigMenu());
 		});
@@ -171,31 +171,31 @@ class MobileControlsState extends MusicBeatState
 				}
 				else
 				{
-					if (virtualPad.buttonUp.justPressed)
-						moveButton(touch, virtualPad.buttonUp);
-					else if (virtualPad.buttonDown.justPressed)
-						moveButton(touch, virtualPad.buttonDown);
-					else if (virtualPad.buttonRight.justPressed)
-						moveButton(touch, virtualPad.buttonRight);
-					else if (virtualPad.buttonLeft.justPressed)
-						moveButton(touch, virtualPad.buttonLeft);
+					if (vpad.buttonUp.justPressed)
+						moveButton(touch, vpad.buttonUp);
+					else if (vpad.buttonDown.justPressed)
+						moveButton(touch, vpad.buttonDown);
+					else if (vpad.buttonRight.justPressed)
+						moveButton(touch, vpad.buttonRight);
+					else if (vpad.buttonLeft.justPressed)
+						moveButton(touch, vpad.buttonLeft);
 				}
 			}
 		}
 
-		if (virtualPad != null && controlsItems[Math.floor(curSelected)] == 'Pad-Custom')
+		if (vpad != null && controlsItems[Math.floor(curSelected)] == 'Pad-Custom')
 		{
-			if (virtualPad.buttonUp != null)
-				upPosition.text = 'Button Up X:' + virtualPad.buttonUp.x + ' Y:' + virtualPad.buttonUp.y;
+			if (vpad.buttonUp != null)
+				upPosition.text = 'Button Up X:' + vpad.buttonUp.x + ' Y:' + vpad.buttonUp.y;
 
-			if (virtualPad.buttonDown != null)
-				downPosition.text = 'Button Down X:' + virtualPad.buttonDown.x + ' Y:' + virtualPad.buttonDown.y;
+			if (vpad.buttonDown != null)
+				downPosition.text = 'Button Down X:' + vpad.buttonDown.x + ' Y:' + vpad.buttonDown.y;
 
-			if (virtualPad.buttonLeft != null)
-				leftPosition.text = 'Button Left X:' + virtualPad.buttonLeft.x + ' Y:' + virtualPad.buttonLeft.y;
+			if (vpad.buttonLeft != null)
+				leftPosition.text = 'Button Left X:' + vpad.buttonLeft.x + ' Y:' + vpad.buttonLeft.y;
 
-			if (virtualPad.buttonRight != null)
-				rightPosition.text = 'Button Right X:' + virtualPad.buttonRight.x + ' Y:' + virtualPad.buttonRight.y;
+			if (vpad.buttonRight != null)
+				rightPosition.text = 'Button Right X:' + vpad.buttonRight.x + ' Y:' + vpad.buttonRight.y;
 		}
 	}
 
@@ -242,20 +242,20 @@ class MobileControlsState extends MusicBeatState
 		{
 			case 'Pad-Right':
 				removeControls();
-				virtualPad = new FlxVirtualPad(RIGHT_FULL, NONE);
-				add(virtualPad);
+				vpad = new FlxVirtualPad(RIGHT_FULL, NONE);
+				add(vpad);
 			case 'Pad-Left':
 				removeControls();
-				virtualPad = new FlxVirtualPad(LEFT_FULL, NONE);
-				add(virtualPad);
+				vpad = new FlxVirtualPad(LEFT_FULL, NONE);
+				add(vpad);
 			case 'Pad-Custom':
 				removeControls();
-				virtualPad = MobileControls.customVirtualPad;
-				add(virtualPad);
+				vpad = MobileControls.customVirtualPad;
+				add(vpad);
 			case 'Pad-Duo':
 				removeControls();
-				virtualPad = new FlxVirtualPad(BOTH_FULL, NONE);
-				add(virtualPad);
+				vpad = new FlxVirtualPad(BOTH_FULL, NONE);
+				add(vpad);
 			case 'Hitbox':
 				removeControls();
 				hitbox = new FlxHitbox();
@@ -264,8 +264,8 @@ class MobileControlsState extends MusicBeatState
 				removeControls();
 		}
 
-		if (virtualPad != null)
-			virtualPad.visible = (daChoice != 'Hitbox' && daChoice != 'Keyboard');
+		if (vpad != null)
+			vpad.visible = (daChoice != 'Hitbox' && daChoice != 'Keyboard');
 
 		if (hitbox != null)
 			hitbox.visible = (daChoice == 'Hitbox');
@@ -273,8 +273,8 @@ class MobileControlsState extends MusicBeatState
 
 	private function removeControls():Void
 	{
-		if (virtualPad != null)
-			remove(virtualPad);
+		if (vpad != null)
+			remove(vpad);
 
 		if (hitbox != null)
 			remove(hitbox);
