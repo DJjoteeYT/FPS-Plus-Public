@@ -162,7 +162,7 @@ class KeyBindMenuController extends MusicBeatState
 				state = "select";
 		}
 
-		if (FlxG.gamepads.anyJustPressed(ANY))
+		if (controls.UP_P || controls.DOWN_P || FlxG.gamepads.anyJustPressed(ANY))
 			textUpdate();
 
 		super.update(elapsed);
