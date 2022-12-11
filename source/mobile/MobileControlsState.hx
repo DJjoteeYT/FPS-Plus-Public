@@ -58,6 +58,7 @@ class MobileControlsState extends MusicBeatState
 			if (controlsItems[Math.floor(curSelected)] == 'Pad-Custom')
 				MobileControls.customVirtualPad = vpad;
 
+			ConfigMenu.startSong = false;
 			switchState(new ConfigMenu());
 		});
 		exitButton.setGraphicSize(Std.int(exitButton.width) * 3);
