@@ -99,7 +99,7 @@ class CacheReload extends FlxState
 			}
 			else
 			{
-				Paths.loadImage(Paths.file(Startup.characters[charI], "images", Paths.extensions.get("image")));
+				Paths.loadImage(Paths.file(Startup.characters[charI], "images", Paths.extensions.get("image")), true);
 				charI++;
 			}
 		}
@@ -113,7 +113,7 @@ class CacheReload extends FlxState
 			}
 			else
 			{
-				Paths.loadImage(Paths.file(Startup.graphics[gfxI], "images", Paths.extensions.get("image")));
+				Paths.loadImage(Paths.file(Startup.graphics[gfxI], "images", Paths.extensions.get("image")), true);
 				gfxI++;
 			}
 		}
@@ -150,14 +150,13 @@ class CacheReload extends FlxState
 	{
 		for (x in Startup.songs)
 		{
-			if (Paths.inst(x) != null)
-				Paths.inst(x);
+			var path:String = Paths.file('$x/Inst', 'songs', Paths.extensions.get("audio"));
+			if (Assets.exists(path))
+				Paths.loadSound(path, true);
 
-			if (Paths.music(x) != null)
-				Paths.music(x);
-
-			if (Paths.sound(x) != null)
-				Paths.sound(x);
+			var path:String = Paths.file(x, 'music', Paths.extensions.get("audio"));
+			if (Assets.exists(path))
+				Paths.loadSound(path, true);
 		}
 
 		songsCached = true;
