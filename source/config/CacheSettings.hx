@@ -138,6 +138,8 @@ class CacheSettings extends MusicBeatState
 
 		if (FlxG.keys.justPressed.ANY)
 			textUpdate();
+
+		super.update(elapsed);
 	}
 
 	function textUpdate()
