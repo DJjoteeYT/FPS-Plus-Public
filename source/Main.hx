@@ -36,7 +36,7 @@ class Main extends Sprite
 		FlxG.signals.postStateSwitch.add(function()
 		{
 			Paths.clearCache(ALL, STORED);
-			if ((!Std.isOfType(MusicBeatState, PlayState)))
+			if (!Std.isOfType(MusicBeatState, PlayState))
 				Paths.clearCache(ALL, UNUSED);
 		});
 
