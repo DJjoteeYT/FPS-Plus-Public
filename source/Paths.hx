@@ -31,7 +31,6 @@ class Paths
 
 	public static var excludedImages:Array<String> = [];
 	public static var excludedSounds:Array<String> = [];
-
 	public static var trackedAssets:Array<String> = [];
 
 	public static function clearCache(?assets:AssetsType = ALL, ?clearing:ClearingType = ALL, ?clearExcludedAssets:Bool = false):Void
