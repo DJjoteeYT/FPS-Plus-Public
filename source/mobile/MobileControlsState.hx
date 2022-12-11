@@ -16,7 +16,7 @@ import mobile.flixel.FlxVirtualPad;
 import openfl.utils.Assets;
 import transition.data.*;
 
-class MobileControlsSubState extends MusicBeatState
+class MobileControlsState extends MusicBeatState
 {
 	private final controlsItems:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Pad-Duo', 'Hitbox', 'Keyboard'];
 
