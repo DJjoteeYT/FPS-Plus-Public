@@ -36,10 +36,10 @@ class Paths
 
 	public static function clearCache(?assets:AssetsType = ALL, ?clearing:ClearingType = ALL, ?clearExcludedAssets:Bool = false):Void
 	{
-		if ((assets == IMAGES || assets == ALL) && clearExcludedAssets)
+		if (excludedImages.length > 0 && (assets == IMAGES || assets == ALL) && clearExcludedAssets)
 			excludedImages = [];
 
-		if ((assets == SOUNDS || assets == ALL) && clearExcludedAssets)
+		if (excludedSounds.length > 0 && (assets == SOUNDS || assets == ALL) && clearExcludedAssets)
 			excludedSounds = [];
 
 		if (assets == IMAGES || assets == ALL)
