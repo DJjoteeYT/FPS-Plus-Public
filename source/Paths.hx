@@ -3,7 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-import have.io.Path;
+import haxe.io.Path;
 import openfl.media.Sound;
 import openfl.system.System;
 import openfl.utils.Assets;
@@ -48,7 +48,7 @@ class Paths
 				@:privateAccess
 				for (key in FlxG.bitmap._cache.keys())
 				{
-					if (!imagesCache.exists(key) && !excludedAssets.contains(key) && key != null)
+					if (!imagesCache.exists(key) && !excludedImages.contains(key) && key != null)
 					{
 						var obj = FlxG.bitmap._cache.get(key);
 						@:privateAccess
@@ -68,7 +68,7 @@ class Paths
 			{
 				for (key in imagesCache.keys())
 				{
-					if (!trackedAssets.contains(key) && !excludedAssets.contains(key) && key != null)
+					if (!trackedAssets.contains(key) && !excludedImages.contains(key) && key != null)
 					{
 						var obj = imagesCache.get(key);
 						@:privateAccess
@@ -93,7 +93,7 @@ class Paths
 				@:privateAccess
 				for (key in Assets.cache.getSoundKeys())
 				{
-					if (!soundsCache.exists(key) && !excludedAssets.contains(key) && key != null)
+					if (!soundsCache.exists(key) && !excludedSounds.contains(key) && key != null)
 					{
 						var obj = Assets.cache.getSound(key);
 						@:privateAccess
@@ -111,7 +111,7 @@ class Paths
 			{
 				for (key in soundsCache.keys())
 				{
-					if (!trackedAssets.contains(key) && !excludedAssets.contains(key) && key != null)
+					if (!trackedAssets.contains(key) && !excludedSounds.contains(key) && key != null)
 					{
 						var obj = soundsCache.get(key);
 						if (obj != null)
@@ -126,7 +126,7 @@ class Paths
 			}
 		}
 
-		if (clearing == UNUSED || clearing == ALL)
+		if (trackedAssets.length > 0 && (clearing == UNUSED || clearing == ALL))
 			trackedAssets = [];
 
 		// run the garbage collector for good measure lmao
