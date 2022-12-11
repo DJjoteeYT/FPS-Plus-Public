@@ -142,7 +142,7 @@ class KeyBindMenu extends MusicBeatState
 				state = "select";
 		}
 
-		if (FlxG.keys.justPressed.ANY)
+		if (controls.UP_P || controls.DOWN_P || FlxG.keys.justPressed.ANY)
 			textUpdate();
 
 		super.update(elapsed);
