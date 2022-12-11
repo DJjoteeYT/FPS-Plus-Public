@@ -49,7 +49,7 @@ class CacheReload extends FlxState
 		if (doGraphics)
 		{
 			GPUBitmap.disposeAll();
-			Paths.clearCache(IMAGES, ALL);
+			Paths.clearCache(IMAGES, ALL, true);
 		}
 		else
 		{
@@ -59,7 +59,7 @@ class CacheReload extends FlxState
 
 		if (doMusic)
 		{
-			Paths.clearCache(SOUNDS, ALL);
+			Paths.clearCache(SOUNDS, ALL, true);
 		}
 		else
 		{
