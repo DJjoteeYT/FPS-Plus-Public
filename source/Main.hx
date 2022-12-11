@@ -32,7 +32,13 @@ class Main extends Sprite
 
 		addChild(new Overlay(10, 3));
 
-		FlxG.signals.postStateSwitch.add(System.gc);
+		// The best way to add assets clearing without to add it to a state directly.
+		FlxG.signals.postStateSwitch.add(function()
+		{
+			Paths.clearCache(ALL, STORED);
+			if ((!Std.isOfType(MusicBeatState, PlayState)))
+				Paths.clearCache(ALL, UNUSED);
+		});
 
 		trace("-=Args=-");
 		trace("novid: " + novid);

@@ -3,7 +3,6 @@ package;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-import have.io.Path;
 import openfl.media.Sound;
 import openfl.system.System;
 import openfl.utils.Assets;
@@ -29,19 +28,10 @@ class Paths
 	public static var imagesCache:Map<String, FlxGraphic> = [];
 	public static var soundsCache:Map<String, Sound> = [];
 
-	public static var excludedImages:Array<String> = [];
-	public static var excludedSounds:Array<String> = [];
-
 	public static var trackedAssets:Array<String> = [];
 
-	public static function clearCache(?assets:AssetsType = ALL, ?clearing:ClearingType = ALL, ?clearExcludedAssets:Bool = false):Void
+	public static function clearCache(?assets:AssetsType = ALL, ?clearing:ClearingType = ALL):Void
 	{
-		if ((assets == IMAGES || assets == ALL) && clearExcludedAssets)
-			excludedImages = [];
-
-		if ((assets == SOUNDS || assets == ALL) && clearExcludedAssets)
-			excludedSounds = [];
-
 		if (assets == IMAGES || assets == ALL)
 		{
 			if (clearing == STORED || clearing == ALL)
@@ -49,7 +39,7 @@ class Paths
 				@:privateAccess
 				for (key in FlxG.bitmap._cache.keys())
 				{
-					if (!imagesCache.exists(key) && !excludedAssets.contains(key) && key != null)
+					if (!imagesCache.exists(key) && key != null)
 					{
 						var obj = FlxG.bitmap._cache.get(key);
 						@:privateAccess
@@ -69,7 +59,7 @@ class Paths
 			{
 				for (key in imagesCache.keys())
 				{
-					if (!trackedAssets.contains(key) && !excludedAssets.contains(key) && key != null)
+					if (!trackedAssets.contains(key) && key != null)
 					{
 						var obj = imagesCache.get(key);
 						@:privateAccess
@@ -94,7 +84,7 @@ class Paths
 				@:privateAccess
 				for (key in Assets.cache.getSoundKeys())
 				{
-					if (!soundsCache.exists(key) && !excludedAssets.contains(key) && key != null)
+					if (!soundsCache.exists(key) && key != null)
 					{
 						var obj = Assets.cache.getSound(key);
 						@:privateAccess
@@ -112,7 +102,7 @@ class Paths
 			{
 				for (key in soundsCache.keys())
 				{
-					if (!trackedAssets.contains(key) && !excludedAssets.contains(key) && key != null)
+					if (!trackedAssets.contains(key) && key != null)
 					{
 						var obj = soundsCache.get(key);
 						if (obj != null)
@@ -132,17 +122,6 @@ class Paths
 
 		// run the garbage collector for good measure lmao
 		System.gc();
-	}
-
-	public static function excludeAsset(path:String):Void
-	{
-		if (path != null)
-		{
-			if (Path.extension(path) == extensions.get("image"))
-				excludedImages.push(path);
-			else if (Path.extension(path) == extensions.get("audio"))
-				excludedSounds.push(path);
-		}
 	}
 
 	inline static public function file(key:String, location:String, extension:String):String
@@ -228,7 +207,7 @@ class Paths
 		return atlasFrames;
 	}
 
-	public static function loadImage(path:String, ?exclude:Bool = false):FlxGraphic
+	public static function loadImage(path:String):FlxGraphic
 	{
 		if (Assets.exists(path, IMAGE))
 		{
@@ -238,9 +217,6 @@ class Paths
 				graphic.persist = true;
 				graphic.destroyOnNoUse = false;
 				imagesCache.set(path, graphic);
-
-				if (exclude)
-					excludedImages.push(path);
 			}
 			else
 				trace('$path is already loaded!');
@@ -253,7 +229,7 @@ class Paths
 		return null;
 	}
 
-	public static function loadSound(path:String, ?exclude:Bool = false):Sound
+	public static function loadSound(path:String):Sound
 	{
 		if (Assets.exists(path, SOUND))
 		{
@@ -261,9 +237,6 @@ class Paths
 			{
 				var sound:Sound = Assets.getSound(path);
 				soundsCache.set(path, sound);
-
-				if (exclude)
-					excludedSounds.push(path);
 			}
 			else
 				trace('$path is already loaded!');

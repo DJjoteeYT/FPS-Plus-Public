@@ -259,14 +259,13 @@ class Startup extends FlxState
 	{
 		for (x in songs)
 		{
-			if (Paths.inst(x) != null)
-				Paths.inst(x);
+			var path:String = Paths.file('$x/Inst', 'songs', Paths.extensions.get("audio"));
+			if (Assets.exists(path))
+				Paths.loadSound(path, true);
 
-			if (Paths.music(x) != null)
-				Paths.music(x);
-
-			if (Paths.sound(x) != null)
-				Paths.sound(x);
+			var path:String = Paths.file(x, 'music', Paths.extensions.get("audio"));
+			if (Assets.exists(path))
+				Paths.loadSound(path, true);
 		}
 
 		loadingText.text = "Songs cached...";
@@ -276,7 +275,7 @@ class Startup extends FlxState
 	function preloadCharacters()
 	{
 		for (x in characters)
-			Paths.loadImage(Paths.file(x, "images", Paths.extensions.get("image")));
+			Paths.loadImage(Paths.file(x, "images", Paths.extensions.get("image")), true);
 
 		loadingText.text = "Characters cached...";
 		charactersCached = true;
@@ -285,7 +284,7 @@ class Startup extends FlxState
 	function preloadGraphics()
 	{
 		for (x in graphics)
-			Paths.loadImage(Paths.file(x, "images", Paths.extensions.get("image")));
+			Paths.loadImage(Paths.file(x, "images", Paths.extensions.get("image")), true);
 
 		loadingText.text = "Graphics cached...";
 		graphicsCached = true;
